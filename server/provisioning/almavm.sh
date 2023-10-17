@@ -13,6 +13,8 @@ set -o pipefail  # don't mask errors in piped commands
 # Variables
 #------------------------------------------------------------------------------
 
+
+
 install_packages() {
     dnf update -y && sudo dnf upgrade -y
     dnf install -y nano
@@ -22,16 +24,24 @@ install_packages() {
 
 install_jenkins() {
 
+    dnf update -y
+
     # get jenkins repo en GPG key
     wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+    echo "Importing Jenkins GPG key..."
+    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    echo "Key import completed."
 
     # install jenkins
     dnf install jenkins -y
 
     # start en enable
     systemctl start jenkins && sudo systemctl enable jenkins
+
+    password=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
 }
 
 install_packages
 install_jenkins
+echo password  "$password"
