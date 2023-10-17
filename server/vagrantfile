@@ -125,8 +125,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       
       # Static IP configuration for bridged adapter
       # node.vm.network :public_network, type: 'dhcp', bridge: 'Realtek PCIe GbE Family Controller', auto_config: false
-      node.vm.network :public_network, type: 'static', bridge: 'Realtek PCIe GbE Family Controller', ip: '192.168.20.3', netmask: '255.255.255.0', auto_config: true
-
+      node.vm.network "private_network", :type => 'static', :ip => '192.168.20.1', :netmask => '255.255.255.0', :adapter => 2, :auto_config => true
       custom_synced_folders(node.vm, host)
       forwarded_ports(node.vm, host)
 
