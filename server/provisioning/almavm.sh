@@ -30,18 +30,46 @@ install_jenkins() {
     wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 
     echo "Importing Jenkins GPG key..."
-    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023-2023.key
     echo "Key import completed."
+
+    dnf update -y
 
     # install jenkins
     dnf install jenkins -y
 
     # start en enable
     systemctl start jenkins && sudo systemctl enable jenkins
-
+    
     password=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+}
+
+install_sqlserver() {
+
+    # install podman
+    dnf install podman -y
+
+    # pull sql server image
+    podman pull mcr.microsoft.com/mssql/rhel/server:2022-latest
+
+    # start sql server container
+    podman run -e 'ACCEPT_EULA=Y' -e 'BIGpapi6969=!' -p 1433:1433 -d mcr.microsoft.com/mssql/rhel/server:2022-latest
+}
+
+install_sqlserver() {
+
+    # install podman
+    dnf install podman -y
+
+    # pull sql server image
+    podman pull mcr.microsoft.com/mssql/rhel/server:2022-latest
+
+    # start sql server container
+    podman run -e 'ACCEPT_EULA=Y' -e 'BIGpapi6969=!' -p 1433:1433 -d mcr.microsoft.com/mssql/rhel/server:2022-latest
 }
 
 install_packages
 install_jenkins
 echo password  "$password"
+install_sqlserver
+
