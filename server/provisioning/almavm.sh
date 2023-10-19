@@ -26,11 +26,14 @@ install_jenkins() {
 
     dnf update -y
 
+    echo "Importing Jenkins GPG key..."
     # get jenkins repo en GPG key
     wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
 
-    echo "Importing Jenkins GPG key..."
-    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023-2023.key
+   
+    # rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023-2023.key
+    # sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
     echo "Key import completed."
 
     dnf update -y
