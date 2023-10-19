@@ -56,20 +56,10 @@ install_sqlserver() {
     podman run -e 'ACCEPT_EULA=Y' -e 'BIGpapi6969=!' -p 1433:1433 -d mcr.microsoft.com/mssql/rhel/server:2022-latest
 }
 
-install_sqlserver() {
-
-    # install podman
-    dnf install podman -y
-
-    # pull sql server image
-    podman pull mcr.microsoft.com/mssql/rhel/server:2022-latest
-
-    # start sql server container
-    podman run -e 'ACCEPT_EULA=Y' -e 'BIGpapi6969=!' -p 1433:1433 -d mcr.microsoft.com/mssql/rhel/server:2022-latest
-}
 
 install_packages
 install_jenkins
-echo password  "$password"
 install_sqlserver
+
+echo password: "$password"
 
